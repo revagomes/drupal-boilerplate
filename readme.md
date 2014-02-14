@@ -33,7 +33,7 @@ read the readme inside the specific directory.
  such as selenium, qunit, casperjs or cucumber.
 * [databases](https://github.com/TallerWebSolutions/drupal-boilerplate/blob/master/databases)
  * The databases directory is used to place dumps from the persistant storages like MySQL,
- MongoDB and others.
+ MongoDB and others, used for the initial boot in new environments.
 * [configs](https://github.com/TallerWebSolutions/drupal-boilerplate/blob/master/configs)
  * The configs directory is used to place configurations of other softwares like Apache Solr,
  Redis, MongoDB and others.
