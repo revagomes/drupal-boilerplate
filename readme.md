@@ -28,11 +28,15 @@ read the readme inside the specific directory.
    to this directory for parsing by external tools.
 * [scripts](https://github.com/TallerWebSolutions/drupal-boilerplate/tree/master/scripts)
  * A directory for project-specific scripts.
-* [test](https://github.com/TallerWebSolutions/drupal-boilerplate/tree/master/test)
+* [tests](https://github.com/TallerWebSolutions/drupal-boilerplate/tree/master/tests)
  * A directory for external tests. This is great for non drupal specific tests
  such as selenium, qunit, casperjs or cucumber.
 * [databases](https://github.com/TallerWebSolutions/drupal-boilerplate/blob/master/databases)
- * The databases directory is used to place dumps from the persistant storages like MySQL, MongoDB and others.
+ * The databases directory is used to place dumps from the persistant storages like MySQL,
+ MongoDB and others.
+* [configs](https://github.com/TallerWebSolutions/drupal-boilerplate/blob/master/configs)
+ * The configs directory is used to place configurations of other softwares like Apache Solr,
+ Redis, MongoDB and others.
 * [.gitignore](https://github.com/TallerWebSolutions/drupal-boilerplate/blob/master/.gitignore)
  * Contains the a list of the most common excluded files.
 
