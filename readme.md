@@ -20,6 +20,8 @@ read the readme inside the specific directory.
 
 * [docroot](https://github.com/TallerWebSolutions/drupal-boilerplate/tree/master/docroot)
  * Where your drupal root should start.
+ * The settings.php is not ignored by the GIT, it's expected to use an include file, like: settings.local.php
+   where all the local configurations will be.
 * [drush](https://github.com/TallerWebSolutions/drupal-boilerplate/tree/master/drush)
  * Contains project specific drush commands, aliases, and configurations.
 * [results](https://github.com/TallerWebSolutions/drupal-boilerplate/tree/master/results)
