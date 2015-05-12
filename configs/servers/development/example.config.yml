@@ -1,0 +1,50 @@
+---
+
+# Vagrant hostname and IP configuration.
+vagrant_hostname: example.dev
+vagrant_ip: 192.168.22.10
+
+# Memory and CPU to use for this VM.
+vagrant_memory: 2024
+vagrant_cpus: 2
+
+# A list of synced folders, with the keys 'local_path', 'destination', and 'id'.
+vagrant_synced_folders:
+  - local_path: ~/Sites/example
+    destination: /home/vagrant/example
+    excluded_paths: [".git/"]
+    id: sites
+    type: nfs
+
+# Global variables
+project_path: "/home/vagrant/example"
+drupal_path: "{{ project_path }}/docroot"
+skip_clone: true
+
+# Database specific variables
+drupal_mysql_drupal_user: "drupal"
+drupal_mysql_drupal_password: "root"
+drupal_mysql_database: "example_drupal"
+mysql_root_password: "root"
+
+# Drupal specific variables
+www_owner: "vagrant"
+www_group: "www-data"
+drupal_www_owner: "{{ www_owner }}"
+drupal_www_group: "{{ www_group }}"
+drupal_deploy_script: "{{ project_path }}/scripts/pull.sh"
+enable_debug: no
+nginx_http_params:
+  - types_hash_max_size "2048"
+  - types_hash_bucket_size "32"
+
+# Comment out any extra utilities you don't want to install.
+extra_apt_packages:
+  - mailhog
+  - phpmyadmin
+  - xdebug
+  - xhprof
+  - keychain
+  - tig
+  - git-flow
+  - mutt

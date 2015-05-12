@@ -1,0 +1,52 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'docker'
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.define "intelbras" do |a|
+    a.vm.provider "docker" do |d|
+
+      d.build_dir = "."
+      d.ports = ["8080:8080", "80:80"]
+      d.name = "intelbras"
+      d.has_ssh = true
+    end
+    a.vm.hostname = "intelbras.docker"
+
+    a.vm.synced_folder "../../../../../", "/home/vagrant/intelbras"
+
+    a.ssh.port = 22
+    a.vm.provision "ansible" do |ansible|
+      ansible.playbook = "../../playbook.yml"
+      ansible.inventory_path = "inventory"
+      ansible.verbose = 'vvvv'
+      #ansible.start_at_task = "Check if Drupal is booting."
+    end
+  end
+
+  config.vm.define "intelbras_solr" do |a|
+    a.vm.provider "docker" do |d|
+
+      d.build_dir = "."
+      d.ports = ["2223:22"]
+      d.name = "intelbras_solr"
+      d.has_ssh = true
+    end
+    a.vm.hostname = "intelbras.solr"
+
+    #a.vm.synced_folder "../../../../", "/home/vagrant/fsi"
+
+    a.ssh.port = 22
+    a.vm.provision "ansible" do |ansible|
+      ansible.playbook = "../../playbook.yml"
+      ansible.inventory_path = "inventory"
+      ansible.verbose = 'vvvv'
+      #ansible.start_at_task = "Check if Drupal is booting."
+    end
+  end
+end

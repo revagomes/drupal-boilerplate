@@ -1,0 +1,37 @@
+---
+drupal_deploy_key: "Enter the deploy public key."
+drupal_deploy_script: "scripts/deploy.sh"
+drupal_path: /var/www
+drupal_site_name: "New Drupal install"
+drupal_www_owner: ubuntu
+drupal_www_group: www-data
+drupal_version: "master"
+drupal_profile: standard
+drupal_drush_remote_alias: ""
+drupal_ssh_key_file: "/home/{{ drupal_www_owner }}/.ssh/id_rsa"
+
+# Download source:
+#   - drush | Latest version using Drush.
+#   - git://host.com/drupal.git | Version must be a valid branch or tag.
+drupal_source: drush
+
+# This is useful when your source haves a parent directory
+# structure, for example a bolerplate.
+#    - ".." | One step back.
+#    - "../.." | Two steps back.
+drupal_source_parent_level: ""
+
+drupal_admin_name: admin
+drupal_admin_email: admin@localhost.com
+drupal_admin_password: ""
+
+# All properties are required for Database.
+drupal_db_dump: ""
+drupal_db:
+  driver: mysql
+  user: ""
+  password: ""
+  database: ""
+  host: ""
+  port: ""
+  prefix: ""

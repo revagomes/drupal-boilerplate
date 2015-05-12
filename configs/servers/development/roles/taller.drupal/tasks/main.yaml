@@ -1,0 +1,90 @@
+---
+- name: "Drupal project full path as destination for project."
+  shell: >
+    python -c "import os,sys; print os.path.realpath(sys.argv[1])" {{ drupal_path }}/{{ drupal_source_parent_level }}
+  register: drupal_project_path
+
+- name: "Check if Drupal is booting."
+  shell: >
+    /usr/local/bin/drush status | grep -e "Drupal bootstrap.*\:.*Successful"
+    chdir={{ drupal_path }}
+  sudo: yes
+  sudo_user: "{{ drupal_www_owner }}"
+  register: drupal_is_booting
+  ignore_errors: True
+
+# New project from Git.
+- name: "Add project from Git."
+  include: git.yaml
+  when: drupal_source | match("^(git|ssh|(http(s)?)).+\.git$")
+  sudo: yes
+  sudo_user: "{{ drupal_www_owner }}"
+
+# Permissions.
+- name: "Set permissions properly to the files directory."
+  file: >
+    path={{ drupal_path }}/sites/default/files
+    mode=6775
+    owner={{ drupal_www_owner }}
+    group={{ drupal_www_group }}
+    state=directory
+    recurse=yes
+  sudo: yes
+  sudo_user: "{{ drupal_www_owner }}"
+  ignore_errors: True
+
+- name: "Set permissions for the Drupal root path directory."
+  file: >
+    path={{ drupal_path }} mode=6775
+    owner={{ www_owner }} group={{ www_group }}
+    state=directory
+  ignore_errors: True
+
+# Import Database, only when is an existant project.
+- name: "Import Database from path or url."
+  include: import-db.yaml
+  sudo: yes
+  sudo_user: "{{ drupal_www_owner }}"
+  when: >
+    drupal_source != 'drush'
+    and drupal_db_dump != ''
+    and drupal_db.database != '' and drupal_db.host != ''
+    and drupal_is_booting.rc != 0
+  tags:
+    - database
+
+# Drupal Settings files.
+- include: settings.php.yaml
+  sudo: yes
+  when: drupal_is_booting.rc != 0
+  tags:
+    - database
+
+- name: "Updates Drupal database."
+  command: >
+    drush updb -y
+    chdir={{ drupal_path }}
+  sudo: yes
+  sudo_user: "{{ drupal_www_owner }}"
+  when: drupal_new_installation_result|changed
+
+# Run deploy script
+- name: "Run deployment script from remote."
+  script: "{{ drupal_deploy_script }}"
+  when: drupal_deploy_script | match("^(ssh|(http(s)?)).+\.sh$")
+  tags:
+    - build
+
+- name: "Run deployment script from local."
+  shell: >
+    {{ drupal_deploy_script }} {{ drupal_version }} >> /var/log/drupal_dply_log.txt
+    chdir={{ drupal_path }}
+  tags:
+    - build
+
+# Drush extra configuration.
+- include: drush.yaml
+  sudo: yes
+  sudo_user: "{{ drupal_www_owner }}"
+  tags:
+    - file-sync

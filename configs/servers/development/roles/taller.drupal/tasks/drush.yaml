@@ -1,0 +1,24 @@
+---
+# Create the .drush dir.
+- name: "Create the .drush dir if needed."
+  file: >
+    path=/home/{{ www_owner }}/.drush
+    mode=6775
+    owner={{ www_owner }}
+    group={{ www_group }}
+    state=directory
+
+# Update drushrc.php file.
+- name: "Update drushrc.php file."
+  template: >
+    src=drushrc.php.j2
+    dest="/home/{{ www_owner }}/.drush/drushrc.php"
+
+# Sync files via drush.
+- name: "Sync files using drush aliases."
+  shell: >
+    /usr/local/bin/drush -y rsync {{ drupal_drush_remote_alias }}:%files/ @self:%files
+    chdir={{ drupal_path }}
+  sudo: yes
+  sudo_user: "{{ drupal_www_owner }}"
+  when: drupal_drush_remote_alias | match("^@.+")

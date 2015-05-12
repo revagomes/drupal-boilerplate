@@ -63,3 +63,9 @@ nbproject
 #############################################
 # docroot/sites/*/themes/*/css/*
 # sites/*/themes/*/sass/images/sprites/*
+
+# Provisioning files #
+######################
+configs/servers/development/config.yml
+configs/servers/*/providers/*/.vagrant/
+configs/servers/development/roles/*
