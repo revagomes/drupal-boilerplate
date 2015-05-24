@@ -254,6 +254,7 @@
       nginx_drupal_mp4_streaming: false
       nginx_drupal_aio: false
       nginx_drupal_http_core:
+        ssl_session_cache: true
         client_max_body_size: "10m"
       nginx_drupal_upstream_servers:
         - "unix:/var/run/php-fpm.sock"
@@ -270,7 +271,7 @@
           not_allowed_methods: none
 
     # Install: PHP Composer.
-    - role: pbuyle.php-composer
+    - role: handrus.PHP_Composer
       composer_user: "{{ www_owner }}"
       composer_user_home: "/home/{{ www_owner}}"
 
@@ -280,7 +281,7 @@
     # @TODO Run drupal_db_dump and correct drupal_deploy_script.
     # Install: Drupal Project.
     - role: taller.drupal
-      drupal_path: "{{ drupal_path }}"
+      drupal_path: "{{ drupal_path_var }}"
       drupal_www_owner: "{{ www_owner }}"
       drupal_db:
         driver: mysql
@@ -308,4 +309,3 @@
 
     - name: Install Bundler.
       gem: name=bundler
-
