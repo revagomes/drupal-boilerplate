@@ -30,10 +30,12 @@
     state=directory
     recurse=yes
   sudo: yes
-  sudo_user: "{{ drupal_www_owner }}"
+  sudo_user: root
   ignore_errors: True
 
 - name: "Set permissions for the Drupal root path directory."
+  sudo: yes
+  sudo_user: root
   file: >
     path={{ drupal_path }} mode=6775
     owner={{ www_owner }} group={{ www_group }}

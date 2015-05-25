@@ -103,7 +103,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.playbook = "../../playbook.yml"
     ansible.inventory_path = "inventory"
     ansible.raw_arguments = ['--timeout=300']
-    # ansible.verbose = 'vvvv'
+    ansible.verbose = 'vvvv'
     # ansible.start_at_task = "Install Kraftwagen Drush module."
   end
 end

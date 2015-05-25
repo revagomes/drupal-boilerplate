@@ -253,6 +253,7 @@
       nginx_drupal_flv_streaming: false
       nginx_drupal_mp4_streaming: false
       nginx_drupal_aio: false
+      nginx_drupal_upload_progress: false
       nginx_drupal_http_core:
         ssl_session_cache: true
         client_max_body_size: "10m"
@@ -271,9 +272,8 @@
           not_allowed_methods: none
 
     # Install: PHP Composer.
-    - role: handrus.PHP_Composer
-      composer_user: "{{ www_owner }}"
-      composer_user_home: "/home/{{ www_owner}}"
+    - role: geerlingguy.composer
+      composer_keep_updated: true
 
     # Install: Drush.
     - role: geerlingguy.drush
