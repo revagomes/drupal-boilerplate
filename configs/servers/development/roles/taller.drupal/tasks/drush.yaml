@@ -1,6 +1,8 @@
 ---
 # Create the .drush dir.
 - name: "Create the .drush dir if needed."
+  sudo: yes
+  sudo_user: root
   file: >
     path=/home/{{ www_owner }}/.drush
     mode=6775

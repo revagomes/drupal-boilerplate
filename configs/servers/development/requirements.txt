@@ -1,7 +1,7 @@
 geerlingguy.git
 geerlingguy.mysql
+geerlingguy.composer
 geerlingguy.php
-geerlingguy.apache
 geerlingguy.drush
 geerlingguy.java
 geerlingguy.solr
@@ -11,5 +11,5 @@ jdauphant.nginx
 laggyluke.direnv
 laggyluke.nodejs-app
 nbz4live.php-fpm
-pbuyle.php-composer
 pbuyle.nginx-drupal
+sebas5384.drupal-kraftwagen
