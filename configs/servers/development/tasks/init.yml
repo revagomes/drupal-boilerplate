@@ -9,3 +9,7 @@
     - python-apt
     - python-pycurl
     - build-essential
+
+- name: Set timezone to America/Sao Paulo.
+  shell: >
+    timedatectl set-timezone America/Sao_Paulo

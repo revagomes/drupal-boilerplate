@@ -66,6 +66,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.name = vconfig['vagrant_hostname']
     vb.memory = vconfig['vagrant_memory']
     vb.cpus = vconfig['vagrant_cpus']
+    vb.customize [ "guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 10000 ]
   end
 
   # VMware Fusion.
