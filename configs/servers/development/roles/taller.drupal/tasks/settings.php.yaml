@@ -17,12 +17,13 @@
   template: >
     src=settings.db.j2
     dest={{ drupal_path }}/sites/default/settings.local.php
+
 # Insert <?php tag.
 - lineinfile: >
-    line='<?php'
-    dest={{ drupal_path }}/sites/default/settings.local.php
-    insertafter=BOF
+    line="<?php"
     state=present
+    insertafter=BOF
+    dest={{ drupal_path }}/sites/default/settings.local.php
   when: drupal_db.database != "" and drupal_db.host != ""
 
 # Makes the include of local settings file,

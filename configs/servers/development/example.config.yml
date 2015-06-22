@@ -1,5 +1,11 @@
 ---
 
+# Global variables
+www_owner: "vagrant"
+www_group: "www-data"
+project_path: "/home/{{ www_owner }}/example"
+drupal_path_dir: "{{ project_path }}/docroot"
+
 # Vagrant hostname and IP configuration.
 vagrant_hostname: example.dev
 vagrant_ip: 192.168.22.10
@@ -16,35 +22,55 @@ vagrant_synced_folders:
     id: sites
     type: nfs
 
-# Global variables
-project_path: "/home/vagrant/example"
-drupal_path: "{{ project_path }}/docroot"
-skip_clone: true
+# Nginx Server blocks (VirtualHosts). Add one for each site you are running inside the VM. For
+# multisite deployments, you can point multiple servernames at one documentroot.
+vagrant_vhosts:
+  - {servername: "{{ vagrant_hostname }}", documentroot: "{{ drupal_path_dir }}"}
+
+# Webserver variables.
+nginx_http_params:
+  - types_hash_max_size "2048"
+  - types_hash_bucket_size "32"
+nginx_drupal_upload_progress: false
+
+# Project global variables
+drupal_source: "http://git.drupal.org/project/drupal.git"
+skip_clone: false
+php_webserver_daemon: "nginx"
 
 # Database specific variables
 drupal_mysql_drupal_user: "drupal"
 drupal_mysql_drupal_password: "root"
 drupal_mysql_database: "example_drupal"
 mysql_root_password: "root"
+drupal_db_dump: ""
+#drupal_db_dump: "{{ project_path }}/databases/latest.sql.gz"
 
 # Drupal specific variables
-www_owner: "vagrant"
-www_group: "www-data"
 drupal_www_owner: "{{ www_owner }}"
 drupal_www_group: "{{ www_group }}"
-drupal_deploy_script: "{{ project_path }}/scripts/pull.sh"
-enable_debug: no
-nginx_http_params:
-  - types_hash_max_size "2048"
-  - types_hash_bucket_size "32"
+drupal_version: "7.x"
+drupal_deploy_script: ""
+# drupal_deploy_script: "{{ project_path }}/scripts/pull.sh"
+drush_version: "7.x"
+#drupal_drush_remote_alias: "@server_alias"
+
+# Development Settings
+enable_debug: yes  # Enable X-debug
+
+# Test server variables
+app_user: "{{ www_owner }}"
+node_version: "0.12.4"
 
 # Comment out any extra utilities you don't want to install.
 extra_apt_packages:
-  - mailhog
   - phpmyadmin
-  - xdebug
-  - xhprof
-  - keychain
-  - tig
-  - git-flow
   - mutt
+  - tig
+  - keychain
+  - htop
+  - mytop
+
+# Comment out any extra utilities you don't want to install.
+extra_gems:
+  - homesick

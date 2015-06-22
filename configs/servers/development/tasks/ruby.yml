@@ -1,0 +1,33 @@
+---
+- name: Remove Ruby 1.9.1.
+  apt: pkg=ruby1.9.1 state=absent force=yes
+  sudo: yes
+
+- name: Install Ruby 1.9.3.
+  apt: pkg=ruby1.9.3
+  sudo: yes
+
+# @TODO: Use gem module to install bundler.
+#  Ansible do not installing any gem if we don't do this.
+
+# - name: Install Bundler.
+#   gem: name=bundler state=present
+#   sudo: yes
+#
+# - name: Install Sass.
+#   gem: name=sass state=present
+#   sudo: yes
+
+# - name: Install Compass.
+#   gem: name=compass state=present
+#   sudo: yes
+
+- name: Install Bundler
+  shell: >
+    gem install bundler
+  sudo: yes
+
+- name: Install Compass.
+  shell: >
+    gem install compass
+  sudo: yes

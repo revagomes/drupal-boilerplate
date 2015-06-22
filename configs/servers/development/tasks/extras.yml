@@ -1,5 +1,11 @@
 ---
 - name: Install extra apt packages (if any are configured).
-  apt: "name={{ item }} state=installed"
+  apt: "name={{ item }} state=present"
   with_items: extra_apt_packages | list
   when: extra_apt_packages | length
+
+- name: Install extra gems (if any are configured).
+  gem: "name={{ item }} state=present"
+  with_items: extra_gems | list
+  when: extra_gems | length
+  sudo: yes

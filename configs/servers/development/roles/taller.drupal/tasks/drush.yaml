@@ -1,12 +1,10 @@
 ---
 # Create the .drush dir.
-- name: "Create the .drush dir if needed."
-  file: >
-    path=/home/{{ www_owner }}/.drush
-    mode=6775
-    owner={{ www_owner }}
-    group={{ www_group }}
-    state=directory
+- name: "Ensure Drush configuration folder exists."
+  file:
+    path: "/home/{{ www_owner }}/.drush"
+    state: directory
+  sudo: no
 
 # Update drushrc.php file.
 - name: "Update drushrc.php file."

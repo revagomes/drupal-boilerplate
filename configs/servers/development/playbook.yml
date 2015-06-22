@@ -23,6 +23,12 @@
   vars_files:
     - ./config.yml
 
+  pre_tasks:
+    - name: Install Xvfb for headless tests
+      apt:
+        name: xvfb
+        state: present
+
   roles:
     - role: g-div.nvm
       nvm_user: "{{ app_user }}"
@@ -31,6 +37,7 @@
       nvm_profile_file: "/home/{{ app_user }}/.profile"
       nvm_packages:
         - protractor
+        - jasmine-spec-reporter
 
     - role: geerlingguy.java
 
@@ -61,15 +68,16 @@
   pre_tasks:
 
     - name: Install mailutils so Drupal can send emails.
-      apt: name=mailutils state=installed
+      apt: name=mailutils state=present
 
     - name: Create project folder.
       file: >
         path={{ project_path }}
-        mode=6755 owner={{ drupal_www_owner }}
-        group=www-data
+        mode=6755
+        owner={{ drupal_www_owner }}
+        group={{ drupal_www_group }}
         state=directory
-      when: skip_clone == false
+      when: skip_clone == false and drupal_source == ''
 
     - name: Install dependencies.
       apt: "pkg={{item}}"
@@ -291,8 +299,9 @@
     - role: kosssi.composer
       composer_home_owner: "{{ www_owner }}"
       composer_home_group: "{{ www_owner }}"
-      composer_path: "/home/{{ www_owner }}"
-      composer_path_env: True
+      composer_home_path: "/opt/composer"
+      composer_global_packages: {}
+      composer_path_env: true
 
     # Install: Drush.
     - role: geerlingguy.drush
@@ -321,6 +330,6 @@
 
     - name: Set LC_ALL system variable.
       shell: >
-        export LC_ALL=en_US.utf8
+        echo 'export LC_ALL=en_US.utf8' >> ~/.bashrc
       tags:
         - system

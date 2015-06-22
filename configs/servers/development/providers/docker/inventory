@@ -1,8 +1,5 @@
-[solr]
-intelbras_solr ansible_ssh_host=localhost ansible_ssh_port=2223
-
 [database]
-intelbras ansible_ssh_host=localhost ansible_ssh_port=2222
+example ansible_ssh_host=localhost ansible_ssh_port=2222
 
 [drupal]
-intelbras ansible_ssh_host=localhost ansible_ssh_port=2222
+example ansible_ssh_host=localhost ansible_ssh_port=2222

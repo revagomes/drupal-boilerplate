@@ -25,7 +25,7 @@ SCRIPT
   config.trigger.after [:provision, :up, :reload] do
     system('sudo route add -net 10.0.3.0/24 10.0.4.2 >/dev/null')
   end
- 
+
   config.trigger.after [:halt, :destroy, :suspend] do
     system('sudo route delete -net 10.0.3.0/24 10.0.4.2 >/dev/null')
   end
@@ -62,10 +62,10 @@ SCRIPT
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
-  config.vm.provider "virtualbox" do |vb|
+  config.vm.provider :virtualbox do |vb|
     # Don't boot with headless mode
     # vb.gui = true
-  
+
     # Use VBoxManage to customize the VM. For example to change memory:
     vb.customize ["modifyvm", :id, "--memory", "1024"]
 

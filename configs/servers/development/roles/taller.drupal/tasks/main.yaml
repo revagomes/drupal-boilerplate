@@ -79,6 +79,7 @@
   shell: >
     {{ drupal_deploy_script }} {{ drupal_version }} >> /var/log/drupal_dply_log.txt
     chdir={{ drupal_path }}
+  when: drupal_deploy_script != ''
   tags:
     - build
 

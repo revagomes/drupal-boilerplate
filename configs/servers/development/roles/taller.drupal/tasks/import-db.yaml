@@ -11,7 +11,7 @@
 - name: "Change the drupal_db_dump var to downloaded path."
   set_fact:
     drupal_db_dump: "/tmp/{{ drupal_db_dump | basename }}"
-  when: drupal_db_dump | match("^.+\.gz$") and drupal_db_dump_get_result is defined
+  when: drupal_db_dump | match("^(http(s)?)://.+\.(sql|gz)$") and drupal_db_dump_get_result is defined
 
 # Unpack the dump file. (in case)
 - name: "Unpacks the dump file."
@@ -19,7 +19,7 @@
     gunzip {{ drupal_db_dump }}
     creates={{ drupal_db_dump | regex_replace('(.*)\.gz$', '\\1') }}
   register: drupal_db_dump_unpack_result
-  when: drupal_db_dump | match("^.+\.gz$")
+  when: drupal_db_dump != "" and drupal_db_dump | match("^.+\.gz$")
 
 - name: "Change the drupal_db_dump var to the unpacked dump file."
   set_fact:
@@ -36,6 +36,10 @@
     state=import
     target={{ drupal_db_dump }}
   register: drupal_new_installation_result
+
+# Delete unpacked file
+- name: "Delete unpacked database dump file."
+  file: path={{ drupal_db_dump | regex_replace("(.*)\.gz$", "\\1") }} state=absent
 
 # Enable DB remote connection.
 - name: "Enable httpd_can_network_connect_db directive in SELinux."

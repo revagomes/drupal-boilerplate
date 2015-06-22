@@ -1,0 +1,18 @@
+---
+- name: "Install drush_alias drush scripts."
+  git: "repo=https://github.com/nuvoleweb/drush_alias.git dest=/home/{{ www_owner }}/.drush/drush_alias"
+
+# Create the .bash_aliases file.
+- name: "Ensure .bash_aliases file exists."
+  file:
+    path: "/home/{{ www_owner }}/.bash_aliases"
+    state: touch
+  sudo: no
+
+# Add drush_alias file into .bash_aliases.
+- name: "Include drush_aliases into the local .bash_aliases."
+  lineinfile: >
+    line="source /home/{{ www_owner }}/.drush/drush_alias/drush-alias.sh"
+    state=present
+    insertafter=EOF
+    dest=/home/{{ www_owner }}/.bash_aliases
