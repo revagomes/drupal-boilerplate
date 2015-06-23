@@ -9,6 +9,7 @@ docroot/sites/*/settings*.php
 docroot/files
 docroot/sites/*/files
 docroot/sites/*/private
+private/*
 
 # Packages #
 ############
