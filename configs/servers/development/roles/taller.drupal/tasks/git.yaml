@@ -1,6 +1,6 @@
 ---
 - name: "Check if the project is already cloned."
-  stat: "path={{ drupal_project_path.stdout }}/.git"
+  stat: "path={{ project_path }}/.git"
   register: drupal_project_cloned_status
 
 - name: "Check if the project destination directory is already there."

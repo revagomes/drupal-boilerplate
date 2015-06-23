@@ -3,6 +3,12 @@
 
 # Assemble the local settings.
 
+- name: "Change 'default' directory permissions."
+  file: >
+    path={{ drupal_path }}/sites/default
+    state=directory
+    mode=0775
+
 # - name: "Create directory with local settings."
 #   file: >
 #     path={{ drupal_path }}/sites/default/settings.d
@@ -36,3 +42,9 @@
     dest={{ drupal_path }}/sites/default/settings.php
   when: >
     drupal_new_installation_result is defined and drupal_new_installation_result.rc == 0
+
+- name: "Restore 'default' directory permissions."
+  file: >
+    path={{ drupal_path }}/sites/default
+    state=directory
+    mode=0755

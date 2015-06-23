@@ -333,3 +333,10 @@
         echo 'export LC_ALL=en_US.utf8' >> ~/.bashrc
       tags:
         - system
+
+    - name: Restart Nginx and PHP-FPM services.
+      service: "name={{ item }} state=restarted"
+      with_items:
+        - nginx
+        - php5-fpm
+      ignore_errors: true

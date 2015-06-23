@@ -117,5 +117,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.raw_arguments = ['--timeout=300']
     # ansible.verbose = 'vvvv'
     # ansible.start_at_task = "Import Database from path or url."
+    ansible.extra_vars = {
+      ansible_ssh_user: 'vagrant',
+      ansible_connection: 'ssh',
+      ansible_ssh_args: '-o ForwardAgent=yes'
+    }
   end
 end
