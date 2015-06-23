@@ -345,7 +345,16 @@ $command_specific['site-install'] = array('account-name' => 'alice', 'account-pa
 exec('git rev-parse --show-toplevel 2> /dev/null', $output);
 if (!empty($output)) {
  $repo = $output[0];
+
+ // Extra configurations
  $options['config'] = $repo . '/drush/drushrc.php';
+
+ // Custom Drush Commands
  $options['include'] = $repo . '/drush/commands';
+
+ // Project Alises
  $options['alias-path'] = $repo . '/drush/aliases';
+
+ // Drush Recipes config.
+ $options['dr_locations'] = $repo . '/drush/recipes';
 }
